@@ -8,12 +8,8 @@ import {
   removeSellerSku,
   sendNotification,
 } from "./service/skuBindingService";
-// import { waitFor } from "./service/utils";
+import { formatTime, waitFor } from "./service/utils";
 // import { mockedSkuListOrigin } from "./service/mock";
-
-const formatTime = (date: Date) => {
-  return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-};
 
 async function CatalogTransfer() {
   console.group("CATALOG TRANSFER");
@@ -40,8 +36,8 @@ async function CatalogTransfer() {
 
   const array = await getSellerSkuList(sellerOrigin);
 
-  // filter first 10 items
-  const skuListOrigin = array.slice(0, 10);
+  // filter first N items
+  const skuListOrigin = array.slice(0, 1000);
 
   const progressBar = new cliProgress.SingleBar({
     forceRedraw: true,
@@ -52,9 +48,8 @@ async function CatalogTransfer() {
     const promises = skuListOrigin.map(async (sku: SkuBinding) => {
       await executeTransfer(sku, sellerTarget);
 
-      progressBar.updateETA();
       progressBar.increment();
-      // await waitFor(1000);
+      await waitFor(1000);
 
       return sku;
     });
