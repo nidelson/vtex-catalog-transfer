@@ -27,9 +27,10 @@ async function CatalogTransfer() {
   console.log();
 
   console.log("Getting SKU Binding list...");
-  console.log();
 
   const skuListAll = await getSellerSkuList(sellerOrigin);
+  console.log({ remaining: skuListAll.length });
+  console.log();
 
   // filter first N items
   const skuListOrigin = skuListAll.slice(0, 1000);
