@@ -8,8 +8,7 @@ import {
   removeSellerSku,
   sendNotification,
 } from "./service/skuBindingService";
-import { formatTime, waitFor } from "./service/utils";
-// import { mockedSkuListOrigin } from "./service/mock";
+import { formatTime, waitFor } from "./utils";
 
 async function CatalogTransfer() {
   console.group("CATALOG TRANSFER");
@@ -30,14 +29,10 @@ async function CatalogTransfer() {
   console.log("Getting SKU Binding list...");
   console.log();
 
-  // const skuListOrigin = await getSellerSkuList(sellerOrigin);
-  // const skuListOrigin = mockedSkuListOrigin(sellerOrigin);
-  // const skuListOrigin: SkuBinding[] = [];
-
-  const array = await getSellerSkuList(sellerOrigin);
+  const skuListAll = await getSellerSkuList(sellerOrigin);
 
   // filter first N items
-  const skuListOrigin = array.slice(0, 1000);
+  const skuListOrigin = skuListAll.slice(0, 1000);
 
   const progressBar = new cliProgress.SingleBar({
     forceRedraw: true,
@@ -64,7 +59,6 @@ async function CatalogTransfer() {
 
     const endTime = new Date();
     console.log({ done: formatTime(endTime) });
-    // console.log({ elaptime: endTime-startTime })
   }
 
   console.groupEnd();
